@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center">
+            <h1>Bienvenido</h1> <h2><i>{{user.first_name}} {{user.last_name}}</i></h2>
+            <a href="/new/recipe" class="btn btn-success">Agregar Receta</a>
+            <a href="/logout" class="btn btn-danger">Cerrar Sesión</a>
+        </header>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre de la Receta</th>
+                    <th>¿Mendo de 30 minutos?</th>
+                    <th> Publicado por </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr>
+                    <td>{{recipe.name}}</td>
+                    <td>
+                        {% if recipe.under_30 == 0 %}
+                            No
+                        {% else %}
+                            Si 
+                        {% endif %}
+                    </td>
+                    <td>{{recipe.first_name}}</td>
+                    <td>
+                        <a href="/view/recipe/{{recipe.id}}" class="btn btn-primary">Ver</a>
+                        {% if recipe.user_id == session['user_id'] %}
+                        <a href="/edit/recipe/{{recipe.id}}" class="btn btn-warning">Editar</a>
+                        <a href="/delete/recipe/{{recipe.id}}" class="btn btn-danger">Borrar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
