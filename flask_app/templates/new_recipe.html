@@ -13,13 +13,13 @@
             <a href="/dashboard" class="btn btn-info">Dashboard</a>
             <a href="/logout" class="btn btn-danger">Cerrar Sesión</a>
         </header>
-        {% with messages = get_flashed_messages(category_filter=['recipe'])%}
+        {% with messages = get_flashed_messages(category_filter=['recipe']) %}
             {% if messages %}
-            <div class="alert alert-danger">
-                {% for message in messages %}
-                    <p>{{message}}</p>
-                {% endfor %}
-            </div>
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                </div>
             {% endif %}
         {% endwith %}
 
@@ -29,15 +29,15 @@
             <input type="text" id="name" name="name" class="form-control">
         </div>
         <div class="form-group">
-            <label>Descripción:</label>
+            <label for="description">Descripción:</label>
             <input type="text" id="description" name="description" class="form-control">
         </div>
         <div class="form-group">
-            <label>Instrucciones:</label>
+            <label for="instructions">Instrucciones:</label>
             <textarea id="instructions" name="instructions" class="form-control"></textarea>
         </div>
         <div class="form-group">
-            <label>Fecha de Creación:</label>
+            <label for="date_made">Fecha de Creación:</label>
             <input type="date" id="date_made" name="date_made" class="form-control">
         </div>
         <div class="form-group">
