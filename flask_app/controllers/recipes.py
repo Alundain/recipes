@@ -38,3 +38,23 @@ def edit_recipe(id):
     form_receta = {"id": id}
     receta = User.get_by_id(form_receta)
     return render_template('edit_recipe.html', user=user, receta=receta)
+
+@app.route("/update", methods=['POST'])
+def update_recipe():
+    if 'user_id' not in session:
+        return redirect("/")
+    # recibimos el request form
+    # validar que la info de recetas sea correcta
+    if not Recipe.validate_recipe(request.form):
+        return redirect("/edit/"+request.form['id'])
+    Recipe.update(request.form)
+    return redirect("/dashboard")
+
+@app.route("/delete/<int:id>")
+def delete_recipe(id):
+    if 'user_id' not in session:
+        return redirect("/")
+    data_receta = {"id":id}
+    #metod que elimine un registro en base a la id
+    Recipe.delete(data_receta)
+    return redirect()

@@ -46,24 +46,32 @@ class Recipe:
         return results
         
     @classmethod
-    def get_others_recipes(cls):
-        query = "SELECT recipes.*, users.first_name FROM recipes LEFT JOIN users ON users.id = recipes.user_id WHERE recipes.user_id IS NULL OR recipes.users_id = %(id)s;"
-        results = connectToMySQL('esquema_recipes').query_db(query)
+    def get_my_recipes(cls, form):
+        query = "SELECT recipes.*, users.first_name FROM recipes LEFT JOIN users ON users.id = recipes.user_id WHERE recipes.user_id IS NULL OR recipes.user_id = %(id)s;"
+        results = connectToMySQL('esquema_recipes').query_db(query, form)
         recipes_list = []
-        
         for recipe_row in results:
             recipes_list.append(cls(recipe_row))
         return recipes_list
     
-    '''
     @classmethod
-    def get_all(cls):
-        query = "SELECT recipes.*, first_name FROM recipes JOIN users ON users.id = recipes.user_id;"
-        results = connectToMySQL('esquema_recipes').query_db(query)
+    def get_others_recipes(cls, form):
+        query = "SELECT * FROM recipes LEFT JOIN users ON users.id = recipes.user_id WHERE recipes.user_id != %(id)s;"
+        results = connectToMySQL('esquema_recipes').query_db(query, form)
         recipes_list = []
         
         for recipe_row in results:
             recipes_list.append(cls(recipe_row))
         return recipes_list
-    '''
     
+    
+    @classmethod
+    def update(cls,form):
+        query = "UPDATE recipes SET name = %(name)s, description = %(description)s, instructions = %(instructions)s, date_made = %(date_made)s, under_30 = %(under_30)s, WHERE id = %(id)s"
+        results = connectToMySQL('esquema_recipes').query_db(query, form)
+        return results
+    
+    @classmethod
+    def delete(cls, data):
+        query = "DELETE FROM recipes WHERE id = %(id)s"
+        return connectToMySQL('esquema_recipes').query_db(query, data)

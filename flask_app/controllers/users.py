@@ -32,8 +32,9 @@ def dashboard():
         return redirect("/")
     form = {'id': session['user_id']}
     user = User.get_by_id(form)
-    recipes=Recipe.get_others_recipes(form)
-    return render_template("dashboard.html", user=user,recipes=recipes)
+    recipes=Recipe.get_my_recipes(form)
+    other_recipes = Recipe.get_others_recipes(form)
+    return render_template("dashboard.html", user=user,recipes=recipes, other_recipes=other_recipes)
 
 @app.route("/login", methods=['POST'])
 def login():
